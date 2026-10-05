@@ -29,7 +29,7 @@ public class PersonajesServlet extends HttpServlet {
 
         // 1. LEER PARÁMETROS DEL REQUEST
         String lugar = request.getParameter("lugar");
-        String ordernarPor = request.getParameter("ordernarPor");
+        String ordenarPor = request.getParameter("ordenarPor");
         //boolean descendente = request.getParameter("descendente") != null ? Boolean.parseBoolean(request.getParameter("descendente")) : false;
         boolean descendente = request.getParameter("descendente") != null; // si no se marca, viajará un nula
 
@@ -44,7 +44,7 @@ public class PersonajesServlet extends HttpServlet {
 
             // 3. LÓGICA. Necesito obtener los personajes de los Simpson
             // PENDIENTE!!! enviar los parámetros de filtrado y ordenación al servicio
-            personajes = servicio.buscar(lugar, edadMaxInt, ordernarPor, descendente, limiteInt);
+            personajes = servicio.buscar(lugar, edadMaxInt, ordenarPor, descendente, limiteInt);
         }catch (Exception e){
             //Escribir un personaje de error en personajes.jsp
             request.setAttribute("error", e.getMessage());
