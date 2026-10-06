@@ -23,7 +23,10 @@ public class PersonajeServicio {
                                   Integer edadMax,
                                   String ordenarPor, //pendiente
                                   boolean descendente, //pendiente
-                                  Integer limite) {
+                                  Integer limite,
+                                  String ocupacion,
+                                  boolean principal
+                                  ) {
         //------------------REPASO DE PRIMERO-----------------
         //------------Trasteando con ordenaciones de un ArrayList-----------
 //        List<Personaje> personajes = repositorio.findAll();
@@ -43,6 +46,8 @@ public class PersonajeServicio {
                 //filter() deja pasar solo los que cumplan la condicion
                 .filter( p -> lugar == null || lugar.isBlank() || p.lugar().equalsIgnoreCase(lugar))
                 .filter( p -> edadMax == null || p.edad() <= edadMax)
+                .filter( p -> ocupacion == null || ocupacion.isBlank() || p.ocupacion().equalsIgnoreCase(ocupacion))
+                .filter( p -> !principal || p.principal())
                 //.sorted( (p1, p2) -> p1.nombre() .compareTo(p2.nombre()) ) / .sorted(Comparator.comparing(Personaje::nombre))
                 .sorted(crearComparador(ordenarPor,descendente))
                 .limit(limite == null? Integer.MAX_VALUE: limite)
@@ -57,7 +62,15 @@ public class PersonajeServicio {
                 .distinct()
                 .sorted()
                 .toList();
-        //
+    }
+    public List<String> ocupacionesDisponibles(){
+        //Forma1: funcional
+        return repositorio.findAll().stream()
+                //.map( p -> p.ocupacion()) es lo mismo que .map(Personaje::ocupacion)
+                .map(Personaje::ocupacion)
+                .distinct()
+                .sorted()
+                .toList();
     }
 
     private Comparator<Personaje>  crearComparador(String ordenarPor,boolean descendente){
@@ -67,6 +80,8 @@ public class PersonajeServicio {
 
             //por apellido y, si no coinciden, por nombre
             case "apellido" -> Comparator.comparing(Personaje::apellido).thenComparing(Personaje::apellido);
+
+            case "lugar" -> Comparator.comparing(Personaje::lugar).thenComparing(Personaje::lugar);
 
             default -> Comparator.comparing(Personaje::nombre); //por descarte, ha seleccionado nombre
         };

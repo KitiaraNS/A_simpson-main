@@ -24,8 +24,21 @@
             </select>
         </label>
 
+        <label>Ocupación
+                    <select name="ocupacion">
+                        <option value="">— Todos —</option>
+                        <c:forEach var="o" items="${ocupaciones}">
+                            <option value="${o}" ${o == param.ocupacion ? 'selected' : ''}>${o}</option>
+                        </c:forEach>
+                    </select>
+        </label>
+
         <label>Edad máxima
             <input type="number" name="edadMax" min="0" value="">
+        </label>
+        <label class="check">
+                    <input type="checkbox" name="principal" ${not empty param.principal ? 'checked' : ''} >
+                    Solo familia Simpson
         </label>
     </fieldset>
 
@@ -35,14 +48,15 @@
         <label>Ordenar por
             <!--Mejora! No perder la selección de la lista-->
             <select name="ordenarPor">
-                <option value="nombre">Nombre</option>
-                <option value="apellido">Apellido</option>
-                <option value="edad">Edad</option>
+                <option value="nombre" ${param.ordenarPor == 'nombre' ? 'selected' :''}>Nombre</option>
+                <option value="apellido" ${param.ordenarPor == 'apellido' ? 'selected' :''}>Apellido</option>
+                <option value="edad" ${param.ordenarPor == 'edad' ? 'selected' :''}>Edad</option>
+                <option value="lugar" ${param.ordenarPor == 'lugar' ? 'selected' :''}>Lugar</option>
             </select>
         </label>
 
         <label class="check">
-            <input type="checkbox" name="descendente" >
+            <input type="checkbox" name="descendente" ${not empty param.descendente ? 'checked' :''}>
             Descendente
         </label>
 
